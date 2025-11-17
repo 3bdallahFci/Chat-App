@@ -1,11 +1,14 @@
 import express from 'express';
-import { login, logout, register } from '../controllers/auth.controller.js';
+import { login, logout, register,updateProfile } from '../controllers/auth.controller.js';
+import { protectMiddleware } from '../middlewares/protectMiddleware.js';
 
 const router = express.Router();
 
 // Define your authentication routes here
-router.get('/login', login);
+router.post('/login', login);
 router.post('/register', register); 
 router.post('/logout', logout); 
+
+router.put('/update-profile', protectMiddleware, updateProfile);
 
 export default router;
