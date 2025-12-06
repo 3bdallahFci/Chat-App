@@ -1,15 +1,16 @@
 import { create } from "zustand";
-import instance from "../lib/axios";
+import instance from "../../lib/axios";
 import { toast } from "react-hot-toast";
 
 export const useAuthStore = create((set) => ({
   AuthUser: null,
   isSigningUp:false,
   isLoggingIn:false,
+  isCheckingAuth: true,
   isUpdatingProfile:false,
   checkAuth: async () => {
     try {
-      const res = await instance.get("/auth/check");
+      const res = await instance.get("/auth/check-auth");
 
       set({ AuthUser: res.data });
       // get().connectSocket();
@@ -22,6 +23,8 @@ export const useAuthStore = create((set) => ({
   },
   signup: async (userData) => {
     try {
+      set({ isSigningUp: true });
+      console.log("Signing up user with data:", userData);
       const res = await instance.post("/auth/register", userData);
       set({ AuthUser: res.data });
       toast.success("Signup successful!");
