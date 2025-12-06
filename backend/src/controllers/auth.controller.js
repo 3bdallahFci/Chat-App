@@ -84,7 +84,7 @@ export const logout = (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { FullName, profilePicture } = req.body;
+    const { FullName, profilePic } = req.body;
     const userId = req.user._id;
 
     // Prepare update object
@@ -94,10 +94,10 @@ export const updateProfile = async (req, res) => {
       updateData.FullName = FullName;
     }
 
-    if (profilePicture) {
+    if (profilePic) {
       // Only upload image if provided
-      const uploadResult = await cloudinary.uploader.upload(profilePicture);
-      updateData.profilePicture = uploadResult.secure_url;
+      const uploadResult = await cloudinary.uploader.upload(profilePic);
+      updateData.profilePic = uploadResult.secure_url;
     }
 
     const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
