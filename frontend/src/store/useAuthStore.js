@@ -1,9 +1,9 @@
 import { create } from "zustand";
-import instance from "../../lib/axios";
+import instance from "../lib/axios";
 import { toast } from "react-hot-toast";
 
-export const useAuthStore = create((set) => ({
-  AuthUser: null,
+export const useAuthStore = create((set, get) => ({
+  authUser: null,
   isSigningUp:false,
   isLoggingIn:false,
   isCheckingAuth: true,
@@ -11,12 +11,12 @@ export const useAuthStore = create((set) => ({
   checkAuth: async () => {
     try {
       const res = await instance.get("/auth/check-auth");
-
-      set({ AuthUser: res.data });
+      set({ authUser: res.data });
+      console.log("Auth check successful:", get().authUser);
       // get().connectSocket();
     } catch (error) {
       console.log("Error in checkAuth:", error);
-      set({ AuthUser: null });
+      set({ authUser: null });
     } finally {
       set({ isCheckingAuth: false });
     }
@@ -26,7 +26,7 @@ export const useAuthStore = create((set) => ({
       set({ isSigningUp: true });
       console.log("Signing up user with data:", userData);
       const res = await instance.post("/auth/register", userData);
-      set({ AuthUser: res.data });
+      set({ authUser: res.data });
       toast.success("Signup successful!");
 
     } catch (error) {
@@ -38,7 +38,7 @@ export const useAuthStore = create((set) => ({
   login: async (credentials) => {
     try {
       const res = await instance.post("/auth/login", credentials);
-      set({ AuthUser: res.data });
+      set({ authUser: res.data });
       toast.success("Login successful!");
     } catch (error) {
       console.error("Error logging in:", error.message.toString());
@@ -62,7 +62,7 @@ export const useAuthStore = create((set) => ({
   updateProfile: async (updatedData) => {
     try {
       const res = await instance.put("/auth/update-profile", updatedData);
-      set({ AuthUser: res.data });
+      set({ authUser: res.data });
       toast.success("Profile updated successfully!");
     } catch (error) {
       console.error("Error updating profile:", error.message.toString());

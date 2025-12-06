@@ -6,7 +6,7 @@ import { getUserForSidebar,getMessages,sendMessage } from "../controllers/messag
 const router = express.Router();
 
 // Define your message routes here
-router.get("/user",protectMiddleware,getUserForSidebar);
+router.get("/Users",protectMiddleware,getUserForSidebar);
 router.get("/:id",protectMiddleware,getMessages);
 router.post("/send/:id",protectMiddleware,sendMessage);
 export default router;
