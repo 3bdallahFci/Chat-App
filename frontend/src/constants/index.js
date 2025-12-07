@@ -32,3 +32,5 @@ export const THEMES = [
   "nord",
   "sunset",
 ];
+
+export const AVATAR_URL = "https://res.cloudinary.com/dgt4douyd/image/upload/v1765144420/avatar_vunvwl.png";
